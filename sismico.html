@@ -9,7 +9,7 @@
         <!--Que luego puedo complementar-->
         <style>
             .active {
-                text-decoration: underline;
+                text-decoration: underline;           
             }
         </style>
     </head>
@@ -67,13 +67,14 @@
                 const data = await fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson");
                 datos = await data.json();
                 datos.features.forEach((t, i) => {
-                    if (t.properties.place.includes("Chile") && t.properties.mag > 4.0) {
-                        if (t.properties.mag > 4.9) {
-                            seccion.innerHTML += `<article class="col mb-3"><div class="card bg-warning h-100 border-0 shadow-sm"><div class="d-flex align-items-center"><div class="p-3"><h3 class="display-4">${t.properties.mag.toFixed(1)}</h3></div><div class="p-3 ps-2"><p class="text-body small p-0 m-0"><a href="${t.properties.url}" target="_blank" rel="noopener noreferrer">${t.properties.place}</a><br/><small>${registro(t.properties.time)}</small></p></div></div></div></article>`;
-                        } else {
-                            seccion.innerHTML += `<article class="col mb-3"><div class="card h-100 border-0 shadow-sm"><div class="d-flex align-items-center"><div class="p-3"><h3 class="display-4">${t.properties.mag.toFixed(
-                                1)}</h3></div><div class="p-3 ps-2"><p class="text-body small p-0 m-0"><a href="${t.properties.url}" target="_blank" rel="noopener noreferrer">${t.properties.place}</a><br/><small>${registro(t.properties.time)}</small></p></div></div></div></article>`;
-                        }
+                if (t.properties.place.includes("Chile") && t.properties.mag > 4.0) {
+                    if (t.properties.mag > 5.9) {
+                        seccion.innerHTML += `<article class="col mb-3"><div class="card bg-danger h-100 border-0 shadow-sm"><div class="d-flex align-items-center"><div class="p-3"><h3 class="display-4">${t.properties.mag.toFixed(1)}</h3></div><div class="p-3 ps-2"><p class="text-body small p-0 m-0"><a href="${t.properties.url}" class="text-white" target="_blank" rel="noopener noreferrer">${t.properties.place}</a><br/><small>${registro(t.properties.time)}</small></p></div></div></div></article>`;
+                    } else if (t.properties.mag > 4.9 && t.properties.mag < 5.9) {
+                        seccion.innerHTML += `<article class="col mb-3"><div class="card bg-warning h-100 border-0 shadow-sm"><div class="d-flex align-items-center"><div class="p-3"><h3 class="display-4">${t.properties.mag.toFixed(1)}</h3></div><div class="p-3 ps-2"><p class="text-body small p-0 m-0"><a href="${t.properties.url}" target="_blank" rel="noopener noreferrer">${t.properties.place}</a><br/><small>${registro(t.properties.time)}</small></p></div></div></div></article>`;
+                    } else {
+                        seccion.innerHTML += `<article class="col mb-3"><div class="card h-100 border-0 shadow-sm"><div class="d-flex align-items-center"><div class="p-3"><h3 class="display-4">${t.properties.mag.toFixed(1)}</h3></div><div class="p-3 ps-2"><p class="text-body small p-0 m-0"><a href="${t.properties.url}" target="_blank" rel="noopener noreferrer">${t.properties.place}</a><br/><small>${registro(t.properties.time)}</small></p></div></div></div></article>`;
+                    }
                     }
                 });
                 cargador.style.display = "none";
