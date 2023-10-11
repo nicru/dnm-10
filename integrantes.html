@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>DNOO37 | BOOTSTRAP 5.3.2</title>
+        <!--El CSS de Bootstrap-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+        <!--Que luego puedo complementar-->
+        <style>
+            .active {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body class="bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="backdrop-filter: blur(10px)">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><svg xmlns="http://www.w3.org/2000/svg" height="24" fill="red" viewBox="0 -960 960 960" width="24"><path d="M38-428q-18-36-28-73T0-576q0-112 76-188t188-76q63 0 120 26.5t96 73.5q39-47 96-73.5T696-840q112 0 188 76t76 188q0 38-10 75t-28 73q-11-19-26-34t-35-24q9-23 14-45t5-45q0-78-53-131t-131-53q-81 0-124.5 44.5T480-616q-48-56-91.5-100T264-760q-78 0-131 53T80-576q0 23 5 45t14 45q-20 9-35 24t-26 34ZM0-80v-63q0-44 44.5-70.5T160-240q13 0 25 .5t23 2.5q-14 20-21 43t-7 49v65H0Zm240 0v-65q0-65 66.5-105T480-290q108 0 174 40t66 105v65H240Zm540 0v-65q0-26-6.5-49T754-237q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780ZM480-210q-57 0-102 15t-53 35h311q-9-20-53.5-35T480-210Zm-320-70q-33 0-56.5-23.5T80-360q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-280Zm640 0q-33 0-56.5-23.5T720-360q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-280Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-440q0 50-34.5 85T480-320Zm0-160q-17 0-28.5 11.5T440-440q0 17 11.5 28.5T480-400q17 0 28.5-11.5T520-440q0-17-11.5-28.5T480-480Zm0 40Zm1 280Z"/></svg> NICOLÁS CRUZAT</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">INDEX</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="integrantes.html">INTEGRANTES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="openweather.html">OPEN WEATHER</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="picture.html">PICTURE OF THE DAY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="sismico.html">SÍSMICO</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <header class="container mt-5">
+              <div class="row pt-5">
+                <div class="col col-sm-11 col-md-7 col-lg-5 d-flex justify-content-between">
+                    <span><input type="radio" name="selecciona" value="todos" checked /> Todos</span>
+                    <span><input type="radio" name="selecciona" value="cardinal" /> Cardinales</span>
+                    <span><input type="radio" name="selecciona" value="fijo" /> Fijos</span>
+                    <span><input type="radio" name="selecciona" value="mutable" /> Mutables</span>
+                </div>
+        </header>
+        <aside class="container my-4"></aside>
+        <main class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 pb-5" id="todes">
+            </div>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+        <script>
+            const alternativas = document.querySelector("header");
+            const detalles = document.querySelector("aside");
+            const respuesta = document.querySelector("#todes");
+            var datos;
+            async function estudiantes() {
+                const data = await fetch("https://raw.githubusercontent.com/profesorfaco/dno037-2023-2/main/clase-10/_curso.json");
+                datos = await data.json();
+                alternativas.removeAttribute("style");
+                console.log(datos);
+                signos = [];
+                datos.forEach((x) => {
+                    if (x.github !== "") {
+                        respuesta.innerHTML += `<article class="col mb-3"><div class="card h-100 border-0 shadow-sm"><div class="row g-0 align-items-center"><div class="col-3 col-sm-4 p-2"><img src="${x.avatar}" alt="${x.lista}" class="rounded-circle img-fluid"></div><div class="col-9 col-sm-8"><div class="card-body"><p class="card-text small"><a href="integrante.html?lista=${x.lista}" class="link-dark link-underline-opacity-25 link-underline-opacity-100-hover">${x.nombres.split(" ")[0]} ${x.apellidos.split(" ")[0]}</a><br/><small class="text-body-secondary">${x.zodiaco.signo}</small></p></div></div></div></div></article>`;
+                        signos.push(x.zodiaco.signo);
+                    }
+                });
+            }
+            estudiantes().catch((error) => console.error(error));
+
+            function compatibilidad(valor) {
+                respuesta.innerHTML = ``;
+                detalles.innerHTML = ``;
+                if (valor == "cardinal") {
+                    about =
+                        "<span class=\"text-decoration-underline\">Los signos cardinales</span> se caracterizan por su inclinación a iniciar cosas nuevas. Su energía busca emprender y asumir nuevos retos. Las personas nacidas bajo estos signos tiene la facilidad de ser proactivos, decididos y con el gusto por iniciar cambios. Suelen ser buenos líderes pero también tienen un lado agresivo que puede salir con más facilidad que otros signos.";
+                } else if (valor == "fijo") {
+                    about =
+                        "<span class=\"text-decoration-underline\">Los signos fijos</span> poseen el gusto por el respeto y seguimiento del orden y las estructuras para lograr sus objetivos. Las personas con muchos signos fijos en su carta astral suelen ser leales, consistentes, sensatos y estables. No son muy amigos de los cambios y prefieren tener ideas claras y precisas con las cuáles vivir y crear.";
+                } else if (valor == "mutable") {
+                    about =
+                        "<span class=\"text-decoration-underline\">Los signos mutables</span>  tienen el increíble don de la adaptabilidad, ellos no se encasillan en una sola definición o norma. Les suele ser fácil el transformarse según las necesidades la situación sin por ello traicionarse. En ellos coexisten las contradicciones que a ojos de otros observadores serían irreconciliables. Son espontáneos, impredecibles y flexibles. Aunque también podrían llegar a pecar de superficialidad, inestabilidad o dificultad para decidir.";
+                } else {
+                    about = "Diseño y nuevos medios.";
+                }
+
+                detalles.innerHTML += `<div class="row"><div class="col"><p class="lead">${about}</p></div></div>`;
+
+                datos.forEach((x) => {
+                    if (valor == x.zodiaco.modalidad) {
+                        respuesta.innerHTML += `<article class="col mb-3"><div class="card h-100 border-0 shadow-sm"><div class="row g-0 align-items-center"><div class="col-3 col-sm-4 p-2"><img src="${x.avatar}" alt="${x.lista}" class="rounded-circle img-fluid"></div><div class="col-9 col-sm-8"><div class="card-body"><p class="card-text small"><a href="integrante.html?lista=${x.lista}" class="link-dark link-underline-opacity-25 link-underline-opacity-100-hover">${x.nombres.split(" ")[0]} ${x.apellidos.split(" ")[0]}</a><br/><small class="text-body-secondary">${x.zodiaco.signo}</small></p></div></div></div></div></article>`;
+                    }
+                });
+            }
+
+            const seleccion = document.querySelectorAll('input[name="selecciona"]');
+
+            seleccion.forEach((s) => {
+                s.addEventListener("change", function () {
+                    var valor = this.value;
+                    if (valor !== "todos") {
+                        compatibilidad(valor);
+                    } else {
+                        window.location.reload();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

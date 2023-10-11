@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>DNOO37 | BOOTSTRAP 5.3.2</title>
+        <!--El CSS de Bootstrap-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+        <!--Que luego puedo complementar-->
+        <style>
+            .active {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body class="bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="backdrop-filter: blur(10px)">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="blue"><path d="M440-760v-160h80v160h-80Zm266 110-55-55 112-115 56 57-113 113Zm54 210v-80h160v80H760ZM440-40v-160h80v160h-80ZM254-652 140-763l57-56 113 113-56 54Zm508 512L651-255l54-54 114 110-57 59ZM40-440v-80h160v80H40Zm157 300-56-57 112-112 29 27 29 28-114 114Zm283-100q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-80q66 0 113-47t47-113q0-66-47-113t-113-47q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-160Z"/></svg> NICOLÁS CRUZAT</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">INDEX</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="integrantes.html">INTEGRANTES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="openweather.html">OPEN WEATHER</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="picture.html">PICTURE OF THE DAY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="sismico.html">SÍSMICO</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <header class="container mt-5">
+            <div class="row">
+                <div class="col col-lg-5 pt-5">
+                    <div class="input-group">
+                        <input class="form-control" list="ciudades" name="ciudad" placeholder="Escriba el nombre de una ciudad chilena…" aria-describedby="button" />
+                        <datalist id="ciudades"></datalist>
+                        <button class="btn btn-dark" type="button" id="button" onclick="consulta()">Ver</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="container my-5">
+            <div class="row" style="min-height: 60vh;">
+                <div class="align-self-center">
+                    <blockquote class="d-none">La temperatura en <span id="lugar"></span> es de <span id="temperatura" class="fw-bolder"></span></blockquote>
+                </div>
+            </div>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+        <script>
+            const input = document.querySelector("input");
+            const navegador = document.querySelector("nav");
+            const llenado = document.querySelector("#ciudades");
+            const respuesta = document.querySelector("blockquote");
+            const lugar = document.querySelector("#lugar");
+            const temperatura = document.querySelector("#temperatura");
+            var listaCiudades = [];
+            //creando la función cities
+            async function cities() {
+                const primero = await fetch("https://raw.githubusercontent.com/profesorfaco/dno037-2023-2/main/clase-07/_ciudades.json");
+                const ciudades = await primero.json();
+                console.log(ciudades);
+                ciudades.forEach((c) => {
+                    llenado.innerHTML += `<option value="${c.name}">`;
+                    listaCiudades.push(c.name);
+                });
+            }
+            cities().catch((error) => console.error(error));
+            async function weather(ciudad) {
+                //¡Por favor, cambie la API Key que sigue!
+                const key = "dcc23f23efe3cff1e7ba81b9ac56ac4d";
+                const segundo = await fetch("https://api.openweathermap.org/data/2.5/weather?q=" + ciudad + ",cl&units=metric&appid=" + key + "&lang=es");
+                const tiempo = await segundo.json();
+                console.log(tiempo);
+                respuesta.classList.remove("d-none");
+                respuesta.classList.add("display-5","text-white");
+                document.body.removeAttribute("class");
+                navegador.classList.remove("bg-body-tertiary","navbar-light");
+                navegador.classList.add("navbar-dark");
+                lugar.innerHTML = tiempo.name;
+                temperatura.innerHTML = Math.round(tiempo.main.temp) + "ºC";
+                if (tiempo.coord.lat >= -26) {
+                    document.body.style.background = "linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0, 0.9)), url('img/1.jpg')";
+                    document.body.style.backgroundPosition = "0 0";
+                    document.body.style.backgroundSize = "auto 120%";
+                } else if (tiempo.coord.lat < -26 && tiempo.coord.lat >= -33) {
+                    document.body.style.background = "linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0, 0.9)), url('img/2.jpg')";
+                    document.body.style.backgroundPosition = "0 0";
+                    document.body.style.backgroundSize = "auto 120%";
+                } else if (tiempo.coord.lat < -33 && tiempo.coord.lat >= -37) {
+                    document.body.style.background = "linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0, 0.9)), url('img/3.jpg')";
+                    document.body.style.backgroundPosition = "0 0";
+                    document.body.style.backgroundSize = "auto 120%";
+                } else if (tiempo.coord.lat < -37 && tiempo.coord.lat >= -43) {
+                    document.body.style.background = "linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0, 0.9)), url('img/4.jpg')";
+                    document.body.style.backgroundPosition = "0 0";
+                    document.body.style.backgroundSize = "auto 120%";                   
+                } else {
+                    document.body.style.background = "linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0, 0.9)), url('img/5.jpg')";
+                    document.body.style.backgroundPosition = "0 0";
+                    document.body.style.backgroundSize = "auto 120%";
+                }
+            }
+            function consulta() {
+                let valor = input.value;
+                console.log(valor);
+                if (valor !== "" && listaCiudades.includes(valor)) {
+                    input.style.background = "#fff";
+                    weather(valor).catch((error) => console.error(error));
+                } else {
+                    input.style.background = "#ffa";
+                }
+            }
+        </script>
+    </body>
+</html>
